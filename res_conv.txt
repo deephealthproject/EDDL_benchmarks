@@ -1,0 +1,50 @@
+MNIST CONV:
+    Keras:
+        CPU:   
+            Training: 88.16s/epoch - 1ms/sample
+            Inference: 2.69s - 267us/sample
+            Test loss: 0.089
+            Test acc: 0.971
+        GPU:
+            Training: 7.91s/epoch - 130us/sample
+            Inference: 1.41s - 137us/sample
+            Test loss: 0.1
+            Test acc: 0.967
+
+    EDDL:
+        CPU:
+            Training: 3351.99s/epoch - 5.587s/batch 
+            Inference: 515.78s
+            Test loss: 0.173
+            Test acc: 0.972
+        GPU:
+            Training: 16.85s/epoch - 0.028s/batch 
+            Inference: 1.27s
+            Test loss: 0.0252
+            Test acc: 0.964
+
+
+MNIST CONV + BN:
+    Keras:
+        CPU:   
+            Training: 125s/epoch - 2ms/sample
+            Inference: 3.04s - 302us/sample
+            Test loss: 0.422
+            Test acc: 0.932
+        GPU:
+            Training: 8.47s/epoch - 139us/sample
+            Inference: 1.9s - 185us/sample
+            Test loss: 0.136
+            Test acc: 0.968
+
+    EDDL (soft_cross_entropy loss):
+        CPU:
+            Training: 5064.98s/epoch - 8.442s/batch 
+            Inference: 335.84s
+            Test loss: 0.146
+            Test acc: 0.917
+        GPU:
+            Training: 29.82s/epoch - 0.05s/batch 
+            Inference: 2.1s
+            Test loss: 0.322
+            Test acc: 0.836
