@@ -1,3 +1,4 @@
+EDDL version: 0.6.0
 MNIST CONV:
     Keras:
         CPU:   
