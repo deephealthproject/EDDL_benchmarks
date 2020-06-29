@@ -1,0 +1,25 @@
+EDDL version: 0.6.0
+MNIST MLP:
+    Keras:
+        CPU:   
+            Training: 15.99s/epoch - 263us/step
+            Inference: 0.58s - 58us/step
+            Test loss: 0.250
+            Test acc: 0.937
+        GPU:
+            Training: 4.15s/epoch - 65us/step
+            Inference: 0.2s - 20us/step
+            Test loss: 0.317
+            Test acc: 0.933
+
+    EDDL:
+        CPU:
+            Training: 867.902s/epoch - 1.447s/batch 
+            Inference: 33.5574s
+            Test loss: 0.044
+            Test acc: 0.928
+        GPU:
+            Training: 2.522s/epoch - 0.004s/batch 
+            Inference: 0.183685s
+            Test loss: 0.044
+            Test acc: 0.936
