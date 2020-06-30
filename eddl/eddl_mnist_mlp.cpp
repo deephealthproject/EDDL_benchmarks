@@ -11,15 +11,13 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "apis/eddl.h"
-#include "apis/eddlT.h"
-#include <chrono>
+#include <eddl/apis/eddl.h>
 
 using namespace eddl;
 
 //////////////////////////////////
 // mnist_mlp.cpp:
-// A very basic CNN for mnist
+// A very basic MLP for mnist
 // Using fit for training
 //////////////////////////////////
 
@@ -37,12 +35,9 @@ int main(int argc, char **argv) {
     layer in = Input({784});
     layer l = in;  // Aux var
 
-    l = Reshape(l,{1,28,28});
-    l = MaxPool(ReLu(Conv(l,32, {3,3},{1,1})),{3,3}, {1,1}, "same");
-    l = MaxPool(ReLu(Conv(l,64, {3,3},{1,1})),{2,2}, {2,2}, "same");
-    l = MaxPool(ReLu(Conv(l,128,{3,3},{1,1})),{3,3}, {2,2}, "none");
-    l = MaxPool(ReLu(Conv(l,256,{3,3},{1,1})),{2,2}, {2,2}, "none");
-    l = Reshape(l,{-1});
+    l = ReLu(Dense(l, 1024));
+    l = ReLu(Dense(l, 1024));
+    l = ReLu(Dense(l, 1024));
 
     layer out = Activation(Dense(l, num_classes), "softmax");
     model net = Model({in}, {out});
@@ -56,25 +51,27 @@ int main(int argc, char **argv) {
           rmsprop(0.01), // Optimizer
           {"soft_cross_entropy"}, // Losses
           {"categorical_accuracy"}, // Metrics
-          //CS_GPU({1}, "full_mem") // one GPU
-          CS_CPU(-1, "full_mem") // CPU with maximum threads availables
+          //CS_GPU({1}, "low_mem") // one GPU
+          CS_CPU(-1, "low_mem") // CPU with maximum threads availables
     );
+    //toGPU(net,{1},100,"low_mem"); // In two gpus, syncronize every 100 batches, low_mem setup
 
     // View model
     summary(net);
 
     // Load dataset
-    tensor x_train = eddlT::load("trX.bin");
-    tensor y_train = eddlT::load("trY.bin");
-    tensor x_test = eddlT::load("tsX.bin");
-    tensor y_test = eddlT::load("tsY.bin");
+    Tensor* x_train = Tensor::load("mnist_trX.bin");
+    Tensor* y_train = Tensor::load("mnist_trY.bin");
+    Tensor* x_test = Tensor::load("mnist_tsX.bin");
+    Tensor* y_test = Tensor::load("mnist_tsY.bin");
 
     // Preprocessing
-    eddlT::div_(x_train, 255.0);
-    eddlT::div_(x_test, 255.0);
+    x_train->div_(255.0f);
+    x_test->div_(255.0f);
 
     // Train model
     fit(net, {x_train}, {y_train}, batch_size, epochs);
+
 
     // Evaluate
     auto start = std::chrono::high_resolution_clock::now();
