@@ -20,4 +20,9 @@ target_link_libraries(eddl_mnist_conv PUBLIC EDDL::eddl)
 add_executable(eddl_mnist_conv_BN eddl/eddl_mnist_conv_BN.cpp)
 target_link_libraries(eddl_mnist_conv_BN PUBLIC EDDL::eddl)
 
+add_executable(eddl_imdb_rnn eddl/eddl_imdb_rnn.cpp)
+target_link_libraries(eddl_imdb_rnn PUBLIC EDDL::eddl)
+
+add_executable(eddl_imdb_lstm eddl/eddl_imdb_lstm.cpp)
+target_link_libraries(eddl_imdb_lstm PUBLIC EDDL::eddl)
 
