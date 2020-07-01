@@ -23,3 +23,25 @@ MNIST MLP:
             Inference: 0.183685s
             Test loss: 0.044
             Test acc: 0.936
+    EDDL (-D BUILD_HPC=ON):
+        CPU:
+            Training: 46.119s/epoch - 0.077s/batch 
+            Inference: 3.35314s
+            Test loss: 0.036
+            Test acc: 0.938
+        GPU:
+            Training: 1.780s/epoch - 0.003s/batch 
+            Inference: 0.0680896s
+            Test loss: 0.039
+            Test acc: 0.935
+    EDDL (-D BUILD_SUPERBUILD=ON):
+        CPU:
+            Training: 45.370s/epoch - 0.075s/batch 
+            Inference: 3.28481s
+            Test loss: 0.035
+            Test acc: 0.946
+        GPU:
+            Training: 1.789s/epoch - 0.003s/batch 
+            Inference: 0.0691087s
+            Test loss: 0.043
+            Test acc: 0.933
