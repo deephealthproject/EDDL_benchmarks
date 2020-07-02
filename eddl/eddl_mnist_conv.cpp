@@ -23,6 +23,33 @@ using namespace eddl;
 //////////////////////////////////
 
 int main(int argc, char **argv) {
+	
+	//Check memory use flags
+	string mem("low_mem");
+	if(argc>1){
+		std::string flag(argv[1]);
+		if(!flag.compare("-FULL")){
+			cout << "Using full memory" << endl;
+			mem = "full_mem";
+		}
+		else if(!flag.compare("-LOW")){
+			cout << "Using low memory" << endl;
+			mem = "low_mem";
+		}
+	}
+	//Check device flags
+	auto device = CS_GPU({1}, mem);
+	if(argc>1){
+		std::string flag(argv[1]);
+		if(!flag.compare("-GPU")){
+			cout << "Compiling for GPU" << endl;
+			device = CS_GPU({1}, mem);
+		}
+		else if(!flag.compare("-CPU")){
+			cout << "Compiling for CPU" << endl;
+			device = CS_CPU(-1, mem);
+		}
+	}
 
     // Download mnist
     download_mnist();
@@ -56,7 +83,8 @@ int main(int argc, char **argv) {
           {"soft_cross_entropy"}, // Losses
           {"categorical_accuracy"}, // Metrics
           //CS_GPU({1}, "full_mem") // one GPU
-          CS_CPU(-1, "full_mem") // CPU with maximum threads availables
+          //CS_CPU(-1, "full_mem") // CPU with maximum threads availables
+		  device
     );
 
     // View model

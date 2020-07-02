@@ -23,6 +23,34 @@ using namespace eddl;
 //////////////////////////////////
 
 int main(int argc, char **argv) {
+	
+	//Check memory use flags
+	string mem("low_mem");
+	if(argc>1){
+		std::string flag(argv[1]);
+		if(!flag.compare("-FULL")){
+			cout << "Using full memory" << endl;
+			mem = "full_mem";
+		}
+		else if(!flag.compare("-LOW")){
+			cout << "Using low memory" << endl;
+			mem = "low_mem";
+		}
+	}
+	//Check device flags
+	auto device = CS_GPU({1}, mem);
+	if(argc>1){
+		std::string flag(argv[1]);
+		if(!flag.compare("-GPU")){
+			cout << "Compiling for GPU" << endl;
+			device = CS_GPU({1}, mem);
+		}
+		else if(!flag.compare("-CPU")){
+			cout << "Compiling for CPU" << endl;
+			device = CS_CPU(-1, mem);
+		}
+	}
+
     // Download Imdb
     download_imdb_2000();
 
@@ -58,9 +86,10 @@ int main(int argc, char **argv) {
           opt, // Optimizer
           {"cross_entropy"}, // Losses
           {"binary_accuracy"}, // Metrics
-          CS_GPU({1}) // one GPU
+          //CS_GPU({1}) // one GPU
           //CS_GPU({1,1},100) // two GPU with weight sync every 100 batches
           //CS_CPU()
+		  device
     );
 
     // View model
